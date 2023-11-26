@@ -1,0 +1,112 @@
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,500;1,600&family=Roboto+Condensed&display=swap');
+
+.sidebar {
+    position: sticky;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    min-height: 90vh;
+    height: 100%;
+    width: 100px;
+    background-color: #1b181c ;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins' sans-serif;
+    text-align: left;
+    font-size: 16px;
+    overflow: hidden;
+    transition: all 0.5s linear;
+  }
+  .sidebar-menu a{
+    align-items: center;
+    display: flex;
+    gap: 1.5rem;
+    text-decoration: none;
+    color: white;
+    padding-top: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+  }
+  
+    .icon{
+    font-size: 1.2rem;
+  }
+  /* Remove this line to get white text in anchor tags */
+  /* .sidebar-menu li a {
+    color: #fff;
+  } */
+  
+  .sidebar-header {
+    color: #343a40;
+  }
+  .sidebar-menu a .icon-text {
+    display: none; /* Hide text by default */
+  }
+  
+  .sidebar-menu li:hover a .icon-text {
+    display: inline; /* Show text on hover */
+  }
+  .sidebar:hover{
+    width: 100%;
+  }
+  .sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar-menu li {
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .sidebar-menu li a {
+    text-decoration: none;
+  }
+  
+  .sidebar-menu li a:hover {
+    background-color: #535252;
+    color: #fff;
+    border-radius: 6%;
+    text-align: center;
+
+  }
+  
+  .sidebar-menu li.active {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .sidebar-menu li i {
+    font-size: 20px;
+    margin-right: 10px;
+  }
+
+  .logout{
+    position: absolute;
+    bottom: 0;
+  }
+  @media (max-width: 768px) {
+    .logout{
+        position: relative;
+    }
+    .sidebar:hover{
+      width:10rem;
+    }
+    .sidebar{
+      font-size: 12px;
+    }
+    .icon{
+      font-size: 0.8rem;
+    }
+    .sidebar-menu a{
+      align-items:left;
+    
+      gap: 0.6rem;
+      
+      
+  
+    }
+  }
+  

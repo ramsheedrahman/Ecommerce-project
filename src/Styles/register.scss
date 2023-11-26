@@ -1,0 +1,74 @@
+$primary-color: #3498db;
+$font-family: Arial, sans-serif;
+
+.container-register {
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #ffff !important;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: black;
+    font-family: $font-family;
+    background-color: #fff;
+    
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    
+    
+}
+
+.form-group {
+    margin: 10px 0;
+    background-color: #fff;
+    
+}
+
+label {
+    font-weight: bold;
+    font-family: $font-family;
+    background-color: #fff;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: $font-family;
+    background-color: #fff;
+}
+
+button {
+    background-color: $primary-color;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: $font-family;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: darken($primary-color, 10%);
+}
