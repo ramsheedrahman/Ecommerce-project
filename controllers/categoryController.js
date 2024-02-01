@@ -2,6 +2,7 @@ import categoryschema from "../model/categoryschema.js";
 import slugify from "slugify";
 
 export const categorycreateController = async (req, res) => {
+  console.log(req.user);
   try {
       const name = req.body.name;
       if (!name) {
@@ -97,7 +98,7 @@ export const categoryController = async (req, res) => {
   export const deleteCategoryCOntroller = async (req, res) => {
     try {
       const { id } = req.params;
-      await categoryModel.findByIdAndDelete(id);
+      await categoryschema.findByIdAndDelete(id);
       res.status(200).send({
         success: true,
         message: "Categry Deleted Successfully",

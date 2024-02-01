@@ -1,6 +1,6 @@
 import userModel from "../model/userSchema.js";
 import { hashPassword,comparePassword} from "../helpers/authHelper.js";
-import  JWT from "jsonwebtoken";
+import  jwt from "jsonwebtoken";
 import nodemailer from 'nodemailer'
 import async from "hbs/lib/async.js";
 export const registerController = async (req, res) => {
@@ -39,7 +39,13 @@ export const registerController = async (req, res) => {
         name,
         email,
         phone,
-        address,
+        address: {
+          area: address.area,
+          city: address.city,
+          district: address.district,
+          state: address.state,
+          postalCode: address.postalCode,
+        },
         password: hashedPassword,
        
       }).save();
@@ -84,7 +90,7 @@ export const registerController = async (req, res) => {
         });
       }
       //token
-      const token = await JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
+      const token = await jwt.sign({ _id: user._id },process.env.JWT_SECRET, {
         expiresIn: "7d",
       });
       res.status(200).send({

@@ -1,5 +1,4 @@
 import express from 'express'
-import colors from "colors";
 import dotenv from "dotenv";
 import cors from 'cors'
 import morgan from "morgan";
@@ -8,18 +7,18 @@ import authRoute from './routes/authRoute.js';
 import categoryRoute from './routes/categoryRoute.js'
 import productsRoute from './routes/productsRoute.js'
 const app=express()
-
-
 dotenv.config();
 connectDB()
 //middelwares
+app.use(express.static('public'));
 app.use(cors());
-app.use(express.json());
+app.use(express.json({limit:'10mb'}));
 app.use(morgan("dev"));
 //routes
 app.use("/auth", authRoute);
 app.use("/category",categoryRoute);
 app.use("/product",productsRoute);
+
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
