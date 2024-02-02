@@ -111,6 +111,7 @@
 }
 .navbar .dropdown-menu.show {
   display: block;
+
 }
 .navbar .dropdown-menu li {
   padding: 10px;
@@ -121,5 +122,7 @@
   }
   .navbar .navbar-toggle {
     display: flex;
+    z-index: 1;
+
   }
 }/*# sourceMappingURL=navbar.css.map */

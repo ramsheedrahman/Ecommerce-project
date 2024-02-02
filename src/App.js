@@ -28,6 +28,10 @@ import Cartpage from './Pages/Auth/User/Cartpage';
 import CheckoutForm from './Pages/Auth/User/CheckoutForm';
 import { Elements } from '@stripe/react-stripe-js';
 import StripeContainer from './Pages/Auth/User/StripeContainer';
+import CategoryProduct from './Pages/Auth/User/CategoryProduct';
+import OrderDetails from './Pages/Auth/Admin/OrderDetails';
+import ProductsSection from './Pages/ProductsSection';
+import ProductsPage from './Pages/ProductsPage';
 
 function App() {
   useEffect(()=>{
@@ -40,11 +44,12 @@ function App() {
         <Route path='/forgot-password' element={<ForgotPassword/>}/>
         <Route path='/reset-password/:id' element={<ResetPassword/>}/>
         <Route path="/search" element={<SearchResults/>} />
-        <Route path="/productdetails/:id" element={<ProductDetails/>} />
-        <Route path="/cartpage" element={<Cartpage/>} />
-        <Route path='/payment' element={<StripeContainer/>}/>
+        <Route path="/productdetails/:id" element={<ProductDetails />} />
+        <Route path='/category/:id' element={<CategoryProduct/>}/>
+        <Route path='/products' element={<ProductsPage/>}/>
+        <Route path='/cartpage' element={<Cartpage/>} />
         <Route path='/dashboard' element={<PrivateRoute />}>
-        <Route path='user' element={<Dashboard />} />
+C       <Route path='user' element={<Dashboard />} />
         <Route path='user/orders' element={<Orders/>}/>
         </Route>
         <Route path='/dashboard' element={<AdminRoute/>}>
@@ -53,6 +58,7 @@ function App() {
         <Route path='admin/create-product'element={<CreateProduct/>}/>
         <Route path='admin/products'element={<Products/>}/>
         <Route path="admin/product/:id" element={<UpdateProduct/>} />
+        <Route path="admin/order" element={<OrderDetails/>} />
         </Route>
         <Route path='/about' element={<About/>}/>
         <Route path='/register' element={<Register/>}/>

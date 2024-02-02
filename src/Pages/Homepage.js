@@ -5,14 +5,17 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import {Checkbox ,Radio} from "antd";
-import { Prices } from "../Components/Routes/Price";
 import SearchInput from "../Components/Forms/SerachInput"
 import { useNavigate} from "react-router-dom";
 import { useState,useEffect } from 'react';
 import '../Styles/Homepage.css'
 import { useCart } from '../Components/Context/cart';
+import ProductsSection from './ProductsSection';
+import FilterSection from './FilterSection';
+import Products from './Auth/Admin/Products';
 function Homepage() {
   const navigate=useNavigate()
+  const [showDropdown, setShowDropdown] = useState(false);
   const [products, setProducts] = useState([]);
   const [categories,setCategories]=useState([])
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -55,7 +58,7 @@ function Homepage() {
       localStorage.setItem("cart", JSON.stringify(updatedCart));
     }
   };
-  
+
   console.log(selectedCategories);
   console.log(cart);
   
@@ -114,150 +117,51 @@ function Homepage() {
       if(selectedCategories.length ||  setSelectedPrices.length) getFilteredProducts();
     }, [selectedCategories,selectedPrices]);
   const data= useSelector((state) => state.user.user);
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
   return (
     <Layout>
-      <div className="row dashboard" style={{zIndex:"-1"}}>
-      <div className="col-12 col-md-6 my-3">
-          <SearchInput/>
-                </div>
-            
-
-<div className="col-12 col-md-6 my-3">
-<form>
-									<select class="input-select">
-										<option value="0">All Categories</option>
-										<option value="1">Category 01</option>
-										<option value="1">Category 02</option>
-									</select>
-								</form>
-</div>
-<div className="row">
-  <div className="col-12 m-2">
-  <img className='home-image' src="/Web-Banner_Long_Newborn.jpg" alt="mmmm" />
-
-  </div>
-</div>
-<div className="conatiner-fluid">
-<div className="row">
-<div className=" col-12 filter-section">
-<section>
-        <label for="category">Filter by Category:</label>
-        <select id="category"   onChange={(e) => handleDropdownChange(e.target.value)}>
-          {categories.map((category)=>(
-          <option value={category._id} >{category.name}</option>
-
-          ))}
-           
-        </select>
-
-        <label for="price">Filter by Price:</label>
-        <select id="category" onChange={e => setSelectedPrices(e.target.value)}>
-          {Prices.map((category)=>(
-          <option value={category.array} >{category.name}</option>
-
-          ))}
-        </select>
-
-    </section>
-</div>
-</div>
-</div>
- <div className="col-3 col-md-2 filter "> 
-      <div className="d-flex flex-column">
-      <div className="heading">
-        <h4 className="text-start"> Filter by Categories</h4>
+      <div className="row dashboard" style={{marginTop:'100px' ,zIndex: '-1' }}>
+        <div className="col-12 col-md-6 my-1">
+          <SearchInput />
         </div>
-  {categories.map((category) => (
-    <Checkbox className="checkbox" key={category._id} onChange={(e) => handleCheckboxChange(e.target.checked,category._id)}>
-      {category.name}
-    </Checkbox>
- ) )}
-</div>
-<div className="d-flex flex-column">
-<div className="heading">
-  <h4 className="text-start">Filter by Prices</h4>
-</div>
-  <Radio.Group 
-    onChange={e => setSelectedPrices(e.target.value)}
-    style={{ textAlign:'left' }}
-  >
-    {Prices.map((price) => (
-      <div key={price._id}>
-        <Radio className="radiobox" value={price.array}>{price.name}</Radio>
-      </div>
-    ))}
-  </Radio.Group>
-</div> 
-</div>
-
-<div className="col-6">
-      <nav className="navbar navbar-expand-lg navbar-dark mt-3 mb-5 shadow p-2" style={{ backgroundColor: "#607D8B" }}>
-        <a className="navbar-brand" href="#">Categories:</a>
-
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent2"
-          aria-controls="navbarSupportedContent2"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <i className="fas fa-bars"></i>
-        </button>
-
-        <div className="collapse navbar-collapse" id="navbarSupportedContent2">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item active">
-              <a className="nav-link text-white" href="#">All</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-white" href="#">Shirts</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-white" href="#">Sport wears</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-white" href="#">Outwears</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </div>
-
-
-        <div className="col-9 col-md-10 product-section"  >
-          <div className="row">
-            {products?.map((p) => (
-              <div className=" col-md-3 d-flex justify-content-center ">
-              {/* <Li
-                key={p._id}
-                to={`/dashboard/admin/product/${p._id}`}
-                className="product-link"
-                style={{textDecoration:'none'}}
-              > */}
-                <div className="card m-2" style={{ width: "16rem"}}>
-                  <img 
-                    src={`http://localhost:8000/product/get-productphoto/${p._id}`}
-                    className="card-img-top"
-                    alt={p.name}
-                    style={{height:'14rem', minHeight:'14rem',maxHeight:'14rem'}}
-                  />
-                  <div className="card-body" >
-                    <h5 className="card-title">{p.name}</h5>
-                    <p className="card-text">${p.price}</p>
-                    <button className="btn btn-primary mx-1" onClick={()=> navigate(`/productdetails/${p._id}`)}>Aboutmore</button>
-                    <button className="btn btn-primary" onClick={()=>handleAddtoCart(p)}>Add to Cart</button>
-                  </div>
-                </div>
-            </div>))} 
+        <div className="col-12 col-md-6 my-1">
+          <div className="responsive-dropdown">
+            <button className="cat-btn" onClick={toggleDropdown}>
+              Categories
+            </button>
+            {showDropdown && (
+              <ul className="cat-ul">
+                {categories.map((category) => (
+                  <li className="category-list" key={category._id}>
+                    <Link to={`category/${category._id}`}>{category.name}</Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
+
+        <div className="row">
+          <div className="col-12 m-2">
+            <img className="home-image" src="/Web-Banner_Long_Newborn.jpg" alt="mmmm" />
+          </div>
+        </div>
+        <div className='row'>
+          <div className="col-12">
+          <ProductsSection/>
+          </div>
+        </div>
+        </div>
       
-            </div>
     </Layout>
-  
-  )
+  );
 }
 
-export default Homepage
+export default Homepage;
+
+  
+  
+
+

@@ -96,9 +96,9 @@ const handleDeleteCategory = (category) => {
   return (
     <Layout>
       
-    <div className="container-fluid dark-theme " style={{width:'100%', minHeight:'90vh',backgroundColor: '#333'
+    <div className="container-fluid" style={{width:'100%', minHeight:'90vh'
 }}>
-      <div className="row">
+      <div className="row" style={{marginTop:'100px'}}>
         <div className="col-md-3">
           <Testmenu/>
         </div>

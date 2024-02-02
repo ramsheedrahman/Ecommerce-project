@@ -32,6 +32,6 @@ console.log(User.token);
  if(User.token)authCheck();
   }, [User.token]);
   
-  return ok ? <Outlet /> : navigate('/login');
+  return ok ? <Outlet /> : <Spinner path=''/>;
 }
 export default PrivateRoute

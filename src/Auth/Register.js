@@ -40,7 +40,7 @@ function Register() {
   return (
     <Layout>
     <div class="container-register">
-        <h2>Registration Form</h2>
+        <h2 className='reg-form-header'> <u>Registration Form</u></h2>
         <form class="form" onSubmit={handleSubmit(onSubmit)}>
             <div class="form-group">
                 <label for="name">Name</label>
@@ -58,10 +58,15 @@ function Register() {
                 <label for="phone">Phone</label>
                 <input type="tel" id="phone" name="phone" required {...register("phone",{minLength:{value:10,message:'phone number must be ten numbers'}})}/>
             </div>
-            <div class="form-group">
-                <label for="address">Address:</label>
-                <textarea id="address" name="address" required {...register('address')}></textarea>
-            </div>
+            <div className="form-group">
+            <label htmlFor="address">Address:</label>
+            <input type="text" id="area" name="address.area" placeholder="Area" required {...register('address.area')} />
+            <input type="text" id="city" name="address.city" placeholder="City" required {...register('address.city')} />
+            <input type="text" id="district" name="address.district" placeholder="District" required {...register('address.district')} />
+            <input type="text" id="state" name="address.state" placeholder="State" required {...register('address.state')} />
+            <input type="text" id="postalCode" name="address.postalCode" placeholder="Postal Code" required {...register('address.postalCode')} />
+          </div>
+
             <button type="submit">Submit</button>
         </form>
     </div>

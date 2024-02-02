@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from 'react-router-dom';
 import {toast}from 'react-toastify'; 
 import axios from 'axios';
-
+import '../Styles/login.css'
 function Login() {
 
   const {register,handleSubmit,formState: { errors }, } = useForm();
@@ -30,7 +30,7 @@ function Login() {
   return (
     <div class="container-login">
     <form class="login-form" onSubmit={handleSubmit(onSubmit)}>
-        <h2>Login</h2>
+        <h2>LOGIN FORM</h2>
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" placeholder="Enter your email" required {...register("email")}/>
@@ -40,13 +40,14 @@ function Login() {
             <input type="password" id="password" placeholder="Enter your password" required {...register('password')}/>
         </div>
         <button type="submit">Login</button>
-        <Link to={'/forgot-password'}> <button style={{marginLeft:'20px'}}>Forget Password</button> </Link> 
     </form>
-  <div>
-  <p>Not Registered? <Link to={'/register'}>Click here</Link></p>
+  <div className='under-form'>
+  <div >
+  <p className='reg-link'>Not Registered? <Link to={'/register'}>Click here</Link></p>
   </div>
   <div>
-  <p>forgot password? <Link to={'/forgot-password'}>Click here</Link></p>
+  <p>Forgot password? <Link to={'/forgot-password'}>Click here</Link></p>
+  </div>
   </div>
 </div>
   )

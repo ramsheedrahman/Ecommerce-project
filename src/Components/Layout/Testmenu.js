@@ -1,18 +1,31 @@
-import React from "react";
-import './test.css'
-import { FaPlus, FaPlusCircle, FaShoppingCart, FaUsers, FaShoppingBag, FaSignOutAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { FaPlus, FaPlusCircle, FaShoppingCart, FaUsers, FaShoppingBag, FaSignOutAlt } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import './test.css';
+import { TfiLayoutGrid4Alt } from "react-icons/tfi";
+
 
 const Testmenu = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${menuOpen ? 'open' : ''}`}>
+      <div className="menu-icon" onClick={toggleMenu}>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+      </div>
       <ul className="sidebar-menu">
         <li>
-          <Link to={'dashboard/admin'}>
-            <FaPlus className="icon" />
+          <Link to={'/dashboard/admin'}>
+            <TfiLayoutGrid4Alt className="icon" />
             <span className="icon-text">Dashborad</span>
-            </Link>
-            </li>
+          </Link>
+        </li>
         <li>
           <Link to={'/dashboard/admin/create-product'}>
             <FaPlus className="icon" />
@@ -32,14 +45,9 @@ const Testmenu = () => {
             <span className="icon-text">Products</span>
           </Link>
         </li>
+        
         <li>
-          <Link  to={"/dashboard/admin/users"}>
-            <FaUsers className="icon" />
-            <span className="icon-text">Users</span>
-            </Link>
-            </li>
-        <li>
-          <Link to={"/dashboard/admin/orders"}>
+          <Link to={"/dashboard/admin/order"}>
             <FaShoppingBag className="icon"/>
             <span className="icon-text">Orders</span>
             </Link>

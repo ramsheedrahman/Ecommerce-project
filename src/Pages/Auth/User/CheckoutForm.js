@@ -1,20 +1,31 @@
 import React from 'react';
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
+import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import './stripeform.css';  // Update the path accordingly
 import { useState,useEffect } from 'react';
-import toast from "react-hot-toast";
+import {toast}from 'react-toastify'; 
+import { useCart } from '../../../Components/Context/cart';
+import { useNavigate } from 'react-router-dom';
 // import StripePaymentForm from 'react-stripe-payment-form';
 import axios from 'axios';
 
 const CheckoutForm = ({clientSecret}) => {
+  const navigate=useNavigate()
+  const [cart,setCart]=useCart([])
+  const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
   const [paymentIntentId, setPaymentIntentId] = useState('');
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [amount,setAmount]=useState()
-  const [currency,setCurrency]=useState()
+  const [originalAmount,setOriginalAmount]=useState()
+  
+  const authToken = JSON.parse(localStorage.getItem('auth'));
+      if (!authToken || !authToken.token) {
+        // Handle the case where the token is missing in localStorage
+        toast.error('Authentication token not found.');
+        return;
+      }
   
   // useEffect(() => {
   //   const fetchClientSecret = async () => {
@@ -63,9 +74,25 @@ const handleSubmit = async (e) => {
       setMessage(error.message);
       setIsProcessing(false);
     } else if (paymentIntent.status === 'succeeded') {
+      setIsProcessing(false)
+      navigate('/dashboard/user/orders')
+        localStorage.removeItem("cart");
+        setCart([]);
+       
       toast.success('Thank you Payment Successfull')
-      // Payment succeeded, handle the success case
-      // You may want to redirect the user to a success page or update your UI
+       const order=await axios.post('http://localhost:8000/product/create-order',
+       {
+        cart,paymentIntent,totalQuantity
+      },
+         {
+          headers: {
+            Authorization: authToken.token,
+          },
+        }
+       )
+       setOriginalAmount(paymentIntent.amount / 100);
+
+       
       console.log('Payment succeeded:', paymentIntent);
     }
   } catch (error) {
@@ -74,62 +101,16 @@ const handleSubmit = async (e) => {
     setIsProcessing(false);
   }
 };
-
-
-// var element = element.create('card', {
-//   style: {
-//     base: {
-//       iconColor: '#c4f0ff',
-//       color: '#fff',
-//       fontWeight: '500',
-//       fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
-//       fontSize: '16px',
-//       fontSmoothing: 'antialiased',
-//       ':-webkit-autofill': {
-//         color: '#fce883',
-//       },
-//       '::placeholder': {
-//         color: '#87BBFD',
-//       },
-//     },
-//     invalid: {
-//       iconColor: '#FFC7EE',
-//       color: '#FFC7EE',
-//     },
-//   },
-// });
-
-// // Mount the card element to the DOM
-// element.mount('#card-element');
-
-
-
-  
-
   return (
-  //   <div>
-  //   <input type="number" value={amount} onChange={(event) => setAmount(event.target.value)} />
-  //   <select value={currency} onChange={(event) => setCurrency(event.target.value)}>
-  //     <option value="USD">USD</option>
-  //     <option value="EUR">EUR</option>
-  //     <option value="GBP">GBP</option>
-  //   </select>
-
-  //   {clientSecret && (
-  //     <StripePaymentForm
-  //       clientSecret={clientSecret}
-  //       onSubmit={handleStripePaymentFormSubmit}
-  //     />
-  //   )}
-  // </div>
+   
       <div className="row " style={{height:'16rem'}}>
       <div className='stripe-form'>
          <form id="payment-form" onSubmit={handleSubmit}>
          <label>
         Card details
       </label>       
-      <CardElement/>
-      <button disabled={isProcessing || !stripe || !elements} id="submit">
+      <CardElement />
+      <button  disabled={isProcessing || !stripe || !elements} id="submit">
         <span id="button-text">
           {isProcessing ? "Processing ... " : "Pay now"}
         </span>

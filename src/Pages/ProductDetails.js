@@ -4,13 +4,33 @@ import '../Styles/ProductDetails.css';
 import { useParams } from 'react-router-dom';
 import Layout from '../Components/Layout/Layout';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../Components/Context/cart';
 
 function ProductDetails() {
   const navigate=useNavigate()
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [similarProducts,setSimilarProducts]=useState([])
-
+  const [cart,setCart]=useCart()
+  const handleAddtoCart = (p) => {
+    const existingProduct = cart.find((item) => item._id === p._id);
+  
+    if (existingProduct) {
+      // If the product already exists in the cart, update its quantity
+      const updatedCart = cart.map((item) =>
+        item._id === p._id ? { ...item, quantity: item.quantity + 1 } : item
+      );
+  
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    } else {
+      // If the product is not in the cart, add it with quantity 1
+      const updatedCart = [...cart, { ...p, quantity: 1 }];
+  
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    }
+  };
   const getProduct = async () => {
     try {
       const { data } = await axios.get(`http://localhost:8000/product/get-product/${id}`);
@@ -48,11 +68,13 @@ function ProductDetails() {
           <div className="product-details">
             <h2>{product.name}</h2>
             <p>{product?.category?.name}</p>
-            <p>${product.price}</p>
+            <p>₹{product.price}</p> 
+            <p>Brand:{product.brand}</p>
+             {product.size &&  <p>Size :{product.size}</p>  }
+             {product.color &&  <p>Color :{product.color}</p>  }
             <p>{product.description}</p>
             <div className="product-actions">
-              <button className="update-button">Update</button>
-              <button className="delete-button">Delete</button>
+            <button className="add-to-cart" onClick={()=>handleAddtoCart(product)}>Add to Cart</button>
             </div>
           </div>
         </div>
@@ -79,9 +101,9 @@ function ProductDetails() {
                   />
                   <div className="card-body" >
                     <h5 className="card-title">{p.name}</h5>
-                    <p className="card-text">${p.price}</p>
-                    <button className="btn btn-primary mx-1" onClick={()=> navigate(`/productdetails/${p._id}`)}>Aboutmore</button>
-                    <button className="btn btn-primary">Add to Cart</button>
+                    <p className="card-text">₹{p.price}</p>
+                    <button className="add-to-cart" onClick={()=>handleAddtoCart(p)}>Add to Cart</button>
+                    <button className="about-more mx-1" onClick={() => navigate(`/productdetails/${p._id}`)}>About more</button>
                   </div>
                 </div>
             </div>))} 

@@ -6,13 +6,21 @@ background-color: #f74d83;
 .card-title{
   font-size: large;
 }
-.card-text{
+.product-card-text{
   color: #b52d58;
+  font-size: large;
 }
 .dashboard{
-  background-color: #fdf9f9;
+background-color: #fff;
  min-height: 90vh;
  max-height: 100%;
+}
+.about-more,.add-to-cart{
+  width: 40%;
+  font-size: small;
+}
+.card-body{
+  width: 100%;
 }
 
 /* Your CSS file (e.g., ProductDetails.css) */

@@ -82,10 +82,10 @@ console.log(selectedCategories);
   return (
     <Layout>
       <div className="row dashboard" style={{zIndex:"-1"}}>
-      <div className="col-md-3">
+      <div className="col-3 col-md-2">
           <Testmenu/>
         </div>
-        <div className="col-9" >
+        <div className="col-9 col-md-10" >
           <div className="input w-50 my-3" style={{marginLeft:'48%'}}>
           <SearchInput/>
           </div>
@@ -108,7 +108,7 @@ console.log(selectedCategories);
                   />
                   <div className="card-body" >
                     <h5 className="card-title">{p.name}</h5>
-                    <p className="card-text">${p.price}</p>
+                    <p className="card-text">₹{p.price}</p>
                                  
                   </div>
                 </div>

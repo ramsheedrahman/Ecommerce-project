@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import './navbar.css'
 import { useCart } from '../Context/cart';
 import { Badge } from 'react-bootstrap';
+import { useRef } from 'react';
 function Header() {
   const[cart,setCart]=useCart([])
   const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
@@ -15,18 +16,23 @@ function Header() {
     localStorage.removeItem("auth");
 
   }
+  const productsSectionRef = useRef();
+
+  const scrollToProducts = () => {
+    productsSectionRef.current?.scrollIntoView({
+      behavior: 'smooth',
+    });
+  };
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   }
   return (
-    <nav className={`navbar ${isOpen ? 'mbscreen' : ''}`}>
+    <nav  style={{zIndex:'1'}} className={`navbar ${isOpen ? 'mbscreen' : ''}`}>
       <div className="navbar-logo">
-        <a href="#">A-ROF TRADERS</a>
+      <li><Link to={"/"}>A-rof Traders</Link></li>
       </div>
       <ul className="navbar-menu">
-        <li><Link to={"/"}>Home</Link></li>
-        <li><Link to={"/category"}>Category</Link></li>
         <li>
         <Link to={"/cartpage"}>
         <Badge count={0} showZero>
@@ -36,6 +42,9 @@ function Header() {
                     </Link>
                   
                   </li>
+                  <li onClick={scrollToProducts}>
+          <Link to={'/products'}>Products</Link>
+        </li>
         {User ? 
         <li><Link to={`/dashboard/${User.role === 1 ? 'admin' : 'user'}`}>Dashboard</Link></li>
          :
@@ -46,6 +55,7 @@ function Header() {
         :
 
         <li> <Link href="" onClick={logOut}>Logout</Link> </li>
+        
 }
       </ul>
       <div className="navbar-toggle" onClick={toggleMenu}>

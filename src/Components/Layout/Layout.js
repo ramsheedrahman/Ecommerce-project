@@ -5,12 +5,11 @@ function Layout({children}) {
   return (
     <div>
         <Header/>
-        <main style={{height:'100%',minHeight: "90vh" }}>
-
+        <div style={{height:'100%',minHeight:"100vh"}}>
         {children}
-      </main>
+      </div>
 
-        <Footer/>
+        <Footer style={{height:'100%'}}/>
     </div>
   )
 }

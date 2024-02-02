@@ -3,11 +3,13 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from "./CheckoutForm";
 import axios from 'axios';
-function StripeContainer({totalPrice}) {
+function StripeContainer({amount}) {
+  console.log(amount);
+  console.log(typeof(amount))
   const [clientSecret, setClientSecret] = useState(null);
   const stripePromise = loadStripe('pk_test_QPaEnpmtREKiQe4xInEDxMet003WsMGXnO');
   useEffect(() => {
-    const fetchData = async () => {
+    async function createPaymentIntent(amount) {
       try {
         const result = await fetch('http://localhost:8000/product/payment-intent', {
           method: 'POST',
@@ -15,7 +17,7 @@ function StripeContainer({totalPrice}) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            amount: totalPrice,
+            amount: amount,
           }),
         });
   
@@ -29,16 +31,15 @@ function StripeContainer({totalPrice}) {
         console.error('Error fetching payment intent:', error);
       }
     };
-  
-    fetchData();
-  }, []);
-  
+     const Cents =amount*100
+    createPaymentIntent(Cents);  }, []);
+
   return (
     <>
-      <h1>React Stripe and the Payment Element</h1>
       {clientSecret && stripePromise && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <CheckoutForm  clientSecret={clientSecret} />
+
         </Elements>
       )}
     </>
